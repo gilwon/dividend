@@ -5,6 +5,7 @@ export const KR_STOCKS: SearchResult[] = [
   // 국내 대표 배당주 (코스피)
   { symbol: "005930.KS", name: "삼성전자", exchange: "KSC" },
   { symbol: "005935.KS", name: "삼성전자우", exchange: "KSC" },
+  { symbol: "000660.KS", name: "SK하이닉스", exchange: "KSC" },
   { symbol: "017670.KS", name: "SK텔레콤", exchange: "KSC" },
   { symbol: "033780.KS", name: "KT&G", exchange: "KSC" },
   { symbol: "105560.KS", name: "KB금융", exchange: "KSC" },
