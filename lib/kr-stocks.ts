@@ -1,41 +1,10 @@
-// 야후 검색이 한글 쿼리를 거부하므로 대체용으로 쓰는 한글명→심볼 큐레이션 테이블
+// 야후 검색이 한글 쿼리를 거부하므로 대체용으로 쓰는 한글명→심볼 테이블
+// 국내 종목은 scripts/build-kr-stocks.mjs로 KRX KIND 상장법인목록에서 생성 (코스피+코스닥 전체)
 import type { SearchResult } from "./types";
+import krListedStocks from "./kr-listed-stocks.json";
 
 export const KR_STOCKS: SearchResult[] = [
-  // 국내 대표 배당주 (코스피)
-  { symbol: "005930.KS", name: "삼성전자", exchange: "KSC" },
-  { symbol: "005935.KS", name: "삼성전자우", exchange: "KSC" },
-  { symbol: "000660.KS", name: "SK하이닉스", exchange: "KSC" },
-  { symbol: "017670.KS", name: "SK텔레콤", exchange: "KSC" },
-  { symbol: "033780.KS", name: "KT&G", exchange: "KSC" },
-  { symbol: "105560.KS", name: "KB금융", exchange: "KSC" },
-  { symbol: "055550.KS", name: "신한지주", exchange: "KSC" },
-  { symbol: "086790.KS", name: "하나금융지주", exchange: "KSC" },
-  { symbol: "316140.KS", name: "우리금융지주", exchange: "KSC" },
-  { symbol: "024110.KS", name: "기업은행", exchange: "KSC" },
-  { symbol: "000810.KS", name: "삼성화재", exchange: "KSC" },
-  { symbol: "005380.KS", name: "현대차", exchange: "KSC" },
-  { symbol: "000270.KS", name: "기아", exchange: "KSC" },
-  { symbol: "005490.KS", name: "POSCO홀딩스", exchange: "KSC" },
-  { symbol: "032640.KS", name: "LG유플러스", exchange: "KSC" },
-  { symbol: "030200.KS", name: "KT", exchange: "KSC" },
-  { symbol: "010950.KS", name: "S-Oil", exchange: "KSC" },
-  { symbol: "088980.KS", name: "맥쿼리인프라", exchange: "KSC" },
-  { symbol: "096770.KS", name: "SK이노베이션", exchange: "KSC" },
-  { symbol: "029780.KS", name: "삼성카드", exchange: "KSC" },
-  { symbol: "003690.KS", name: "코리안리", exchange: "KSC" },
-  { symbol: "138930.KS", name: "BNK금융지주", exchange: "KSC" },
-  { symbol: "175330.KS", name: "JB금융지주", exchange: "KSC" },
-  { symbol: "139130.KS", name: "DGB금융지주", exchange: "KSC" },
-  { symbol: "036460.KS", name: "한국가스공사", exchange: "KSC" },
-  { symbol: "035250.KS", name: "강원랜드", exchange: "KSC" },
-  { symbol: "078930.KS", name: "GS", exchange: "KSC" },
-  { symbol: "003550.KS", name: "LG", exchange: "KSC" },
-  { symbol: "034730.KS", name: "SK", exchange: "KSC" },
-  { symbol: "006800.KS", name: "미래에셋증권", exchange: "KSC" },
-  { symbol: "005940.KS", name: "NH투자증권", exchange: "KSC" },
-  { symbol: "016360.KS", name: "삼성증권", exchange: "KSC" },
-  { symbol: "071050.KS", name: "한국금융지주", exchange: "KSC" },
+  ...(krListedStocks as SearchResult[]),
 
   // 미국 인기 배당주/ETF 한글 별칭
   { symbol: "O", name: "리얼티인컴", exchange: "NYQ" },
