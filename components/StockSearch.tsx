@@ -22,6 +22,8 @@ export function StockSearch({
     if (!q) {
       setResults([]);
       setSearched(false);
+      setSearching(false);
+      setOpen(false);
       return;
     }
     setSearching(true);
