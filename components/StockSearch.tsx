@@ -82,7 +82,7 @@ export function StockSearch({
         className="h-12 w-full rounded-xl border border-zinc-300 bg-white px-4 text-base placeholder:text-zinc-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-100"
       />
 
-      {open && (
+      {open && query.trim() && (
         <div className="absolute z-10 mt-1 w-full overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-lg">
           {searching && (
             <div className="flex items-center gap-2 px-4 py-3 text-sm text-zinc-500">
