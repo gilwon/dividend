@@ -1,6 +1,7 @@
 // 야후 파이낸스 종목 시세 + 배당 이력 프록시 API
 import { NextRequest, NextResponse } from "next/server";
 import { fetchYahoo } from "@/lib/yahoo";
+import { fetchNaverPrice } from "@/lib/naver";
 import type { DividendEvent, StockQuote } from "@/lib/types";
 
 // 야후 차트 응답 중 필요한 필드만 정의
@@ -91,11 +92,23 @@ export async function GET(request: NextRequest) {
       new Set(monthEntries.map((entry) => new Date(entry.date * 1000).getUTCMonth() + 1))
     ).sort((a, b) => a - b);
 
+    // 국내 종목(KRW)은 네이버 실시간 시세로 현재가를 대체 (야후는 지연/부정확할 때가 있음)
+    // 실패 시 야후 현재가로 폴백
+    let price = meta.regularMarketPrice ?? 0;
+    const krCode = meta.currency === "KRW" ? meta.symbol.match(/^(\d{6})\.\w+$/)?.[1] : undefined;
+    if (krCode) {
+      try {
+        price = await fetchNaverPrice(krCode);
+      } catch {
+        // 폴백: 야후 현재가 유지
+      }
+    }
+
     const quote: StockQuote = {
       symbol: meta.symbol,
       name: meta.shortName ?? meta.longName ?? meta.symbol,
       currency: meta.currency,
-      price: meta.regularMarketPrice ?? 0,
+      price,
       annualDividend,
       dividends,
       payoutMonths,
