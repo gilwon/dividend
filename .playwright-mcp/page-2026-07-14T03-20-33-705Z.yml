@@ -1,9 +1,0 @@
-- generic [active] [ref=e1]:
-  - main [ref=e3]:
-    - generic [ref=e4]:
-      - heading "배당 계산기" [level=1] [ref=e5]
-      - paragraph [ref=e6]: 몇 주 사면 매달 얼마 받을까?
-    - 'textbox "종목명이나 심볼을 검색해보세요 (예: 삼성전자, SCHD)" [ref=e8]'
-    - generic [ref=e9]: 종목을 검색해서 추가하면 계산기를 사용할 수 있어요
-    - generic [ref=e10]: 배당금은 세전 기준이며 최근 1년 실적으로 계산한 참고용 수치입니다.
-  - alert [ref=e11]
