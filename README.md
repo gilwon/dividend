@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 배당 계산기
 
-## Getting Started
+국내·미국 배당 종목을 검색하고 보유 주수, 투자금, 목표 월배당을 기준으로 예상 배당을 계산하는 모바일 우선 PWA입니다. 시세와 배당 이력은 Yahoo Finance에서 조회하며 미국 종목은 USD/KRW 환율을 적용해 원화로 계산합니다.
 
-First, run the development server:
+## 주요 기능
+
+- 국내·미국 주식과 ETF를 종목명 또는 심볼로 검색합니다.
+- 현재가, 최근 주당 배당금, 배당수익률, 배당 지급월을 확인합니다.
+- 보유 주수에 따른 월평균 배당을 계산합니다.
+- 투자금으로 살 수 있는 주수와 예상 월평균 배당을 계산합니다.
+- 목표 월배당에 필요한 주수와 투자금을 계산합니다.
+- 포트폴리오를 브라우저 `localStorage`에 저장하고 다시 방문할 때 시세를 갱신합니다.
+- 홈 화면 설치와 한 번 불러온 앱 셸의 최소 오프라인 사용을 지원합니다.
+
+## 빠른 시작
+
+Node.js 20.9 이상이 필요합니다.
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+브라우저에서 [http://localhost:3000](http://localhost:3000)을 엽니다. 별도의 환경변수나 데이터베이스 설정은 필요하지 않습니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 명령어
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| 명령어 | 설명 |
+| --- | --- |
+| `npm run dev` | 개발 서버를 실행합니다. |
+| `npm run build` | 프로덕션 빌드를 생성합니다. |
+| `npm start` | 생성된 프로덕션 빌드를 실행합니다. |
+| `npm run lint` | ESLint 검사를 실행합니다. |
 
-## Learn More
+## 계산 기준
 
-To learn more about Next.js, take a look at the following resources:
+- 연간 주당 배당금은 최근 370일의 배당 이벤트 합계입니다.
+- 월평균 배당은 연간 배당금을 12개월로 나눈 값이며 실제 지급액과 지급 시점은 다를 수 있습니다.
+- 배당 지급월은 최근 400일의 배당락일을 기준으로 표시합니다.
+- 미국 종목은 조회된 USD/KRW 환율로 원화 환산하며, 환율 조회에 실패하면 1달러당 1,400원을 사용합니다.
+- 모든 배당금은 세전 기준의 참고용 수치입니다.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 구조
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| 경로 | 역할 |
+| --- | --- |
+| `app/` | 화면, API 라우트, PWA manifest를 포함합니다. |
+| `components/` | 종목 검색, 포트폴리오 카드, 계산기 UI를 포함합니다. |
+| `hooks/` | 포트폴리오의 로컬 저장과 시세 갱신을 담당합니다. |
+| `lib/` | 배당 계산, 타입, Yahoo Finance 호출 로직을 포함합니다. |
+| `public/` | 서비스 워커와 PWA 아이콘을 포함합니다. |
 
-## Deploy on Vercel
+서버 API 라우트는 브라우저 대신 Yahoo Finance를 호출해 CORS를 우회하고 응답을 캐시합니다.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| API | 역할 |
+| --- | --- |
+| `GET /api/search?q=검색어` | 종목 검색 결과를 반환합니다. |
+| `GET /api/quote?symbol=심볼` | 현재가와 최근 배당 이력을 반환합니다. |
+| `GET /api/fx` | USD/KRW 환율을 반환합니다. |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 기술 스택
+
+- Next.js 16 App Router
+- React 19
+- TypeScript
+- Tailwind CSS 4
+
+## 데이터 및 주의사항
+
+Yahoo Finance 비공식 API를 사용하므로 서비스 상태나 응답 형식에 따라 검색·시세 조회가 실패할 수 있습니다. 표시되는 값은 투자 판단을 위한 보장된 정보가 아니며 실제 거래 전 공식 공시와 증권사 정보를 확인해야 합니다.
