@@ -24,7 +24,10 @@ export function SummaryBar({
   if (items.length === 0) return null;
 
   return (
-    <div className="sticky bottom-0 z-20 border-t border-zinc-200 bg-white/95 px-4 py-3 backdrop-blur">
+    <div
+      className="sticky bottom-0 z-20 border-t border-zinc-200 bg-white/95 px-4 pt-3 backdrop-blur"
+      style={{ paddingBottom: "max(0.75rem, calc(env(safe-area-inset-bottom) + 0.5rem))" }}
+    >
       <div className="mx-auto flex max-w-lg items-center justify-between">
         <div>
           <p className="text-xs text-zinc-400">월평균 배당</p>

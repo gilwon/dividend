@@ -28,7 +28,10 @@ export default function Home() {
 
   return (
     <div className="flex flex-1 flex-col bg-zinc-50">
-      <main className="mx-auto flex w-full max-w-lg flex-1 flex-col gap-6 px-4 py-8 sm:py-12">
+      <main
+        className="mx-auto flex w-full max-w-lg flex-1 flex-col gap-6 px-4 pb-8 sm:pb-12"
+        style={{ paddingTop: "max(2rem, calc(env(safe-area-inset-top) + 1rem))" }}
+      >
         <header>
           <h1 className="text-2xl font-bold text-zinc-900">배당 계산기</h1>
           <p className="mt-1 text-zinc-500">몇 주 사면 매달 얼마 받을까?</p>
